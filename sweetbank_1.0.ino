@@ -143,12 +143,12 @@ void setup() {
 
 
 // Void loopen skriver ut info om hur knapparna funkar, läser av eventuell input från keypad
-/*Om input är: 
-0 - visar fullständigt info om kontot, kräver admin; 
-1 - skapar ett nytt konto, kräver admin; 
-2 - skickar pengar mellan två konton; 
-3 - sätta mer pengar; 
-4 - drar pengar från kontot;*/
+//Om input är: 
+//0 - visar fullständigt info om kontot, kräver admin; 
+//1 - skapar ett nytt konto, kräver admin; 
+//2 - skickar pengar mellan två konton; 
+//3 - sätta mer pengar; 
+//4 - drar pengar från kontot;
 void loop() {
 
   if (!instructionsPrinted) {
@@ -235,12 +235,12 @@ void loop() {
 }
 
 // Run funktion som läser av ett rfid-kort och sparar UID i nuidPICC
-/*
-  loopar till den hittar ett kort
-  validerar om nuid blev läst
-  sparar uid i nuidPICC[]
-  avslutar kryptering och picc
-*/
+
+  //loopar till den hittar ett kort
+  //validerar om nuid blev läst
+  //sparar uid i nuidPICC[]
+  //avslutar kryptering och picc
+
 void getRfidUID() {
   // Look for new cards
   while (!rfid.PICC_IsNewCardPresent()) {
@@ -268,17 +268,17 @@ void clearnuidPICC() {
 }
 
 // Run funktion som skapar nytt konto, skannar kortet (validerar om kontot redan är registrerat), tar emot hur mycket pengar som ska vara på kontot, pinkoden. Loopar igenom allAccounts och hittar ett tomt element. Sparar kontots information. Displayar informationen en sista gång.
-/*
-  Skapar variablar för konto ID, balans och pinkod
-  sätter newAccID's alla element till 0
-  Läser av kort (kallar på getRfidUID())
-  kopierar nuidPICC till newAccID
-  validerar om kortet redan har ett konto
-  Tar ett heltal som input (keyPadWriteInputNumber()), tilldelar värdet till newAmount
-  tar 4 siffror som input och omvandlar till string (keyPad), tilldelar värdet till newPinCode
-  loopar igenom alla konton som finns, hittar det första tomma stället och skapar ett nytt konto med den givna informationen
-  bryter ut ur loopen
-*/
+
+  //Skapar variablar för konto ID, balans och pinkod
+  //sätter newAccID's alla element till 0
+  //Läser av kort (kallar på getRfidUID())
+  //kopierar nuidPICC till newAccID
+  //validerar om kortet redan har ett konto
+  //Tar ett heltal som input (keyPadWriteInputNumber()), tilldelar värdet till newAmount
+  //tar 4 siffror som input och omvandlar till string (keyPad), tilldelar värdet till newPinCode
+  //loopar igenom alla konton som finns, hittar det första tomma stället och skapar ett nytt konto med den givna informationen
+  //bryter ut ur loopen
+
 void createUser() {
   byte newAccID[4];
   int newAmount;
@@ -329,12 +329,12 @@ void createUser() {
 }
 
 // Run funktion som skickar pengar mellan två konton. Argument: sändarens och mottagarens konton, transaktionsvärde, sändarens pinkod. Validerar pinkoden, validerar om sändaren har tillräckligt med pengar. Genomför transactionen, displayar info om hur mycket som skickades, hur mycket sändaren har kvar och hur mycket mottagaren har. 
-/*
-  Validerar om sändarens pinkod stämmer
-  Validerar om sändaren har tillräckligt med pengar
-  kallar på metoder i class Bank för att dra ut pengar och sätta pengar
-  Printar i Seriella monitorn om hur mycket pengar som har skcikats och hur mycket pengar sändaren och mottagaren har
-*/
+
+  //Validerar om sändarens pinkod stämmer
+  //Validerar om sändaren har tillräckligt med pengar
+  //kallar på metoder i class Bank för att dra ut pengar och sätta pengar
+  //Printar i Seriella monitorn om hur mycket pengar som har skcikats och hur mycket pengar sändaren och mottagaren har
+
 void transferMoney(Bank &sender, Bank &reciever, int transferAmount, String pinCode) {
   if (pinCode != sender.getPinCode()) {
     Serial.println("Error: Incorrect pincode.");
@@ -397,14 +397,14 @@ int findAccountIndex;byte AccountUID[4]) {
 }
 
 // Funktion som ger ett tal som skrivs på keypadden. Returnerar int tal.
-/*
-  definierar variablar för hela "talet" och inputen (kallar på keypadden)
-  loopar till man inte konfirmerar med en "#"
-  Om input är "*", raderar den sista siffran från "amount"
-  Om "amount" är tom och input är "*", avbryter funktionen.
-  Annars läggs till input till Amount
-  returnar amount, transformerar datatyp från String till Int
-*/
+
+  //definierar variablar för hela "talet" och inputen (kallar på keypadden)
+  //loopar till man inte konfirmerar med en "#"
+  //Om input är "*", raderar den sista siffran från "amount"
+  //Om "amount" är tom och input är "*", avbryter funktionen.
+  //Annars läggs till input till Amount
+  //returnar amount, transformerar datatyp från String till Int
+
 int keyPadWriteInputNumber() {
   String inputNumber = String(keypad.getKey());
   String amount = "";
@@ -436,10 +436,10 @@ int keyPadWriteInputNumber() {
 }
 
 // Funktion som används för att skriva pinkoden (string). Returnerar 4 siffror som string (pinkod)
-/*
-  Likt funktionen keyPadWriteInputNumber()
-  Enda skillnaden att när inputCode är 4, så breakar loopen och returneras inputCode
-*/
+
+  //Likt funktionen keyPadWriteInputNumber()
+  //Enda skillnaden att när inputCode är 4, så breakar loopen och returneras inputCode
+
 String keyPadWriteCode() {
   String inputNumber = String(keypad.getKey());
   String inputCode = "";
@@ -474,11 +474,11 @@ String keyPadWriteCode() {
 }
 
 // Return Funktion som validerar om den skannade  taggen tillhör adminen. Argument: nuiPICC, return bool.
-/*
-  loopar igenom från talet 0 till 3, 
-  om adminTac[i] inte stämmer med tacUID[i], returnerar false
-  Annars loopar den hela vägen och returnar true
-*/
+
+  //loopar igenom från talet 0 till 3, 
+  //om adminTac[i] inte stämmer med tacUID[i], returnerar false
+  //Annars loopar den hela vägen och returnar true
+
 bool scanAdminTac(byte tacUID[4]) {
   for (int i = 0;i < 4;i++) {
     if (adminTac[i] != tacUID[i]) {
